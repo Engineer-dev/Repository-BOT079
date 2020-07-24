@@ -1,0 +1,29 @@
+const Discord = module.require("discord.js");
+const fs = require("fs");
+let profile = require("../profile.json");
+module.exports.run = async (bot,message,args) => {
+    try{
+        function send (msg){
+            message.channel.send(msg);
+        }
+  
+    
+    if(!message.member.hasPermission("KICK_MEMBERS")) return message.channel.send("```❌ You don't have access to use this command!```")
+    let rUser = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
+    if(!args[0]) return bot.send("```укажите id пользователя!```")
+     if(!profile[rUser.id]) return bot.send("```Пользователь отсутствует в profile.json.```");
+    if(!rUser) return bot.send("```Данного пользователя не существует!```");
+    message.channel.send("```Пользователь кикнут!```")
+    message.guild.member(rUser).kick("Пошел нахуй");
+  
+
+    }catch(err){
+      let embed = new Discord.RichEmbed()
+      .setDescription("Произошел сбой!") 
+      .setColor("#1690d6")
+      message.send(embed)
+    };
+};
+module.exports.help = {
+    name: "kick"
+};
